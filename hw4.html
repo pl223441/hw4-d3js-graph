@@ -1,0 +1,70 @@
+<html>
+<head>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <h2>yw2675 Yuning Wang</h2>
+    <h3>P1 A</h3>
+    <p>
+        <br>Mark: Colorful circles</br>
+        <br>Visual Channels</br>
+        <br>Horizontal Aligned Position: The circles are aligned horizontally based on the years from 2009 to 2017.</br>
+        <br>Vertical Aligned Position:  The circles are aligned vertically to show the secotrs data."Sectors rising" is positive."Sectors falling"is negative.</br>
+        <br>Color Hue:Different colors are used to represent various employment sectors. Range from -1.25% to 1%</br>
+     </p>
+     <h3>P1 B</h3>
+     <p>
+        <br>Mark: Dog silhouettes</br>
+        <br>Visual Channels</br>
+        <br>Horizontal Aligned Position: The Dog silhouettes are aligned horizontally based on "our data score".</br>
+        <br>Vertical Aligned Position:  The Dog silhouettes are aligned vertically based on "popularity"</br>
+        <br>Color Hue:Different colors are used to represent different breeds.</br>
+        <br>Area:The Doge silhouettes repesents the relative size of the dog breeds.</br>
+      </p>
+      <h3>P2</h3>
+      <svg id="chart" width="500" height="500"></svg>
+    
+      <script>
+        
+        d3.json("chip_dataset.json").then(function(data) {
+      
+          const margins = {top: 10, right: 10, bottom: 50, left: 50};
+          const svgWidth = 500, svgHeight = 500;
+          const chartWidth = svgWidth - margins.left - margins.right;
+          const chartHeight = svgHeight - margins.top - margins.bottom;
+    
+          
+          const svg = d3.select("#chart")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight);
+    
+          const chartArea = svg.append("g")
+            .attr("transform", `translate(${margins.left}, ${margins.top})`);
+    
+          const xExtent = d3.extent(data, d => d["Release Day"]);
+          const yExtent = d3.extent(data, d => d["Transistors(million)"]);
+    
+          const xScale = d3.scaleLinear()
+            .domain(xExtent)
+            .range([0, chartWidth]);
+    
+          const yScale = d3.scaleLog()
+            .domain(yExtent)
+            .range([chartHeight, 0]);
+    
+        
+          data.forEach(d => {
+            chartArea.append("circle")
+              .attr("cx", xScale(d["Release Day"]))
+              .attr("cy", yScale(d["Transistors(million)"]))
+              .attr("r", 3)
+              .attr("fill", "darkblue")
+              .attr("opacity", 0.3);
+          });
+        });
+      </script>
+    </body>
+    </html>
+
+
+    
